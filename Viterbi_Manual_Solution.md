@@ -200,23 +200,49 @@ This makes biological sense because:
 
 
 # Probability P(X) of the sequence GGCA calculated through forward and backward algorithm: 
-# For states, initial and transition probabilities and emission probabilities see above
+## For states, initial and transition probabilities and emission probabilities see above
 
-# For sequence GGCA: 
-initialization (t=1, G)
+### Forward altgorithm for sequence GGCA: 
+
+**initialization (t=1, G)**
 a1(R) = πR x P(G|R) = 0.5 x 0.3 = 0.15
 a1(P) = πP x P(G|P) = 0.5 x 0.2 = 0.10
 
-recursion (t=2, G)
-a2(R) = [a1(R)(a_PR) + a1(P)(a_PP)] x P(G|R) = [(0.15 x 0.6) + (0.10 x 0.4)] x 0.3 = 0.0039
-a2(R) = [a1(R)(a_PP) + a1(P)(a_PR)] x P(G|R) = [(0.15 x 0.4) + (0.10 x 0.6)] x 0.2 = 0.024
+**recursion (t=2, G)**
+a2(R) = [a1(R)(a_PR) + a1(P)(a_PP)] x P(G|R) = [(0.15 x 0.6) + (0.10 x 0.4)] x 0.3 = **0.0039**
+a2(R) = [a1(R)(a_PP) + a1(P)(a_PR)] x P(G|R) = [(0.15 x 0.4) + (0.10 x 0.6)] x 0.2 = **0.024**
 
-recursion (t=3 C)
-a3(R) = [a2(R)(a_PR) + a2(P)(a_PP)] x P(C|R) = [(0.0039 x 0.6) + (0.024 x 0.4)] x 0.3 = 0.0099
-a3(P) = [a2(R)(a_PP) + a2(P)(a_PR)] x P(C|P) = [(0.0039 x 0.4) + (0.024 x 0.6)] x 0.2 = 0.006
+**recursion (t=3 C)**
+a3(R) = [a2(R)(a_PR) + a2(P)(a_PP)] x P(C|R) = [(0.0039 x 0.6) + (0.024 x 0.4)] x 0.3 = **0.0099**
+a3(P) = [a2(R)(a_PP) + a2(P)(a_PR)] x P(C|P) = [(0.0039 x 0.4) + (0.024 x 0.6)] x 0.2 = **0.006**
 
-recursion (t=4, A)
-a4(R) = [a3(R)(a_PR) + a3(P)(a_PP)] x P(A|R) = [(0.0099 x 0.6) + (0.006 x 0.4)] x 0.2 = 0.001668
-a4(R) = [a3(R)(a_PR) + a3(P)(a_PP)] x P(A|P) = [(0.0099 x 0.4)(0.006 x 0.6)] x 0.3 = 0.002268
+**recursion (t=4, A)**
+a4(R) = [a3(R)(a_PR) + a3(P)(a_PP)] x P(A|R) = [(0.0099 x 0.6) + (0.006 x 0.4)] x 0.2 = **0.001668**
+a4(P) = [a3(R)(a_PR) + a3(P)(a_PP)] x P(A|P) = [(0.0099 x 0.4) + (0.006 x 0.6)] x 0.2 = **0.001512**
 
-termination P(GGCA)
+**termination P(GGCA)** 
+a4(R) + a4(P) = 0.001668 + 0.001512 = **0.00318**
+
+### Backward algorithm
+
+**Initialization (t=4, A)**
+b4(R) = 1 ; b4(P) = 1
+
+**Step t=3, C to A**
+b3(R) = [0.6 x ((P(A|R) x b4(R)) + (0.4 X (P(A|P) x b4(P))] = [(0.6 X 0.2 x 1) + (0.4 x 0.2 x 1)] = 0.12 + 0.08 = 0.20
+b3(P) = [0.6 x ((P(A|P) x b4(P) + (0.4 X (P(A|R) x b4(R))] = [(0.6 X 0.2 x 1) + (0.4 x 0.2 x 1)] = 0.12 + 0.08 = 0.20
+
+**Step t=2, G to C**
+b2(R) = [0.6 x ((P(C|R) x b3(R)) + (0.4 X (P(C|P) x b3(P))] = [(0.6 X 0.3 x 0.20) + (0.4 x 0.2 x 0.20)] = 0.036 + 0.016 = 0.052
+b2(P) = [0.6 x ((P(C|P) x b3(P)) + (0.4 X (P(C|R) x b3(R))] = [(0.6 X 0.2 x 0.20) + (0.4 x 0.3 x 0.20)] = 0.024 + 0.024 = 0.048
+
+**Step t=1, G to G**
+b1(R) = [0.6 x ((P(G|R) x b3(R)) + (0.4 X (P(C|P) x b3(P))] = [(0.6 X 0.3 x 0.0052) + (0.4 x 0.2 x 0.0048)] = 0.00936 + 0.00384 = 0.0132
+b1(P) = [0.6 x ((P(C|P) x b3(P)) + (0.4 X (P(C|R) x b3(R))] = [(0.6 X 0.3 x 0.0048) + (0.4 x 0.2 x 0.0052)] = 0.00576 + 0.00624 = 0.012
+
+**P sequence**
+∑ P(s) x P(G|R-P) x b1(R-P) = (0.5 x 0.3 x 0.0132) + (0.5 x 0.2 x 0.012) = 0.00198 + 0.0012 = **0.00318**
+
+### Scaling variables
+
+
