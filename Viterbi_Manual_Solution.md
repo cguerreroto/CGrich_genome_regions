@@ -197,3 +197,26 @@ This makes biological sense because:
 - The middle contains A, C, T which are more likely in CG-poor regions
 - The algorithm balances emission probabilities with transition probabilities to find the optimal path
 
+
+
+# Probability P(X) of the sequence GGCA calculated through forward and backward algorithm: 
+# For states, initial and transition probabilities and emission probabilities see above
+
+# For sequence GGCA: 
+initialization (t=1, G)
+a1(R) = πR x P(G|R) = 0.5 x 0.3 = 0.15
+a1(P) = πP x P(G|P) = 0.5 x 0.2 = 0.10
+
+recursion (t=2, G)
+a2(R) = [a1(R)(a_PR) + a1(P)(a_PP)] x P(G|R) = [(0.15 x 0.6) + (0.10 x 0.4)] x 0.3 = 0.0039
+a2(R) = [a1(R)(a_PP) + a1(P)(a_PR)] x P(G|R) = [(0.15 x 0.4) + (0.10 x 0.6)] x 0.2 = 0.024
+
+recursion (t=3 C)
+a3(R) = [a2(R)(a_PR) + a2(P)(a_PP)] x P(C|R) = [(0.0039 x 0.6) + (0.024 x 0.4)] x 0.3 = 0.0099
+a3(P) = [a2(R)(a_PP) + a2(P)(a_PR)] x P(C|P) = [(0.0039 x 0.4) + (0.024 x 0.6)] x 0.2 = 0.006
+
+recursion (t=4, A)
+a4(R) = [a3(R)(a_PR) + a3(P)(a_PP)] x P(A|R) = [(0.0099 x 0.6) + (0.006 x 0.4)] x 0.2 = 0.001668
+a4(R) = [a3(R)(a_PR) + a3(P)(a_PP)] x P(A|P) = [(0.0099 x 0.4)(0.006 x 0.6)] x 0.3 = 0.002268
+
+termination P(GGCA)
