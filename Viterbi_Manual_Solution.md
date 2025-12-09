@@ -1,3 +1,8 @@
+## Students:
+- Julian Buetzer
+- Giacomo Frison
+- Cindy Guerrero
+
 # Viterbi Algorithm: Manual Solution for CG-rich Genome Regions
 
 ## Problem Setup: Case 1
